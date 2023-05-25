@@ -46,12 +46,12 @@ import com.op.moviemaps.services.SharedUtils;
  */
 public class ScriptPath {
 	public static ScriptPath tester;
-	private boolean large = false;
+	private boolean large = true;
 	private boolean bordered = true;
 	private boolean saveFinal = true;
 	private boolean toFrame = false;
 	private boolean scaled = false;
-	protected String scName = "ANH";
+	protected String scName = "MAT";
 	protected String finalDir = "final/";
 	protected int number = 1;
 	protected int total = 10;
@@ -122,7 +122,7 @@ public class ScriptPath {
 	private static final int CAP = BasicStroke.CAP_BUTT;
 	// private static final String STAMP_PREFIX = "KS-MM-";
 	// private static final String STAMP_PREFIX = "SP-MM-";
-	private static final String STAMP_PREFIX = "ET-MM-";
+	private static final String STAMP_PREFIX = "www.LonGenArt.com ET-MM-";
 	private float dashLF = 0.75f;
 	private double weightPow = -1; // 1.5;
 	private float sceneBlockColAlpha = 1f;
@@ -153,6 +153,7 @@ public class ScriptPath {
 	double locationFontOff = 0;
 	boolean sceneFontLowerCase = false;
 	boolean locationFontLowerCase = false;
+	boolean plotEncryption = false;
 
 	/** aspect ratio **/
 
@@ -199,12 +200,19 @@ public class ScriptPath {
 			} else {
 				plotBackground();
 			}
+		} else {
+			plotNoBackground();
 		}
 		plotSceneNames();
 		plotLocationNames();
 		// plotOnscreenOutline();
 		plotPointsByCharacter();
 		plotTitle();
+	}
+
+	private void plotNoBackground() {
+		opG.setColor(Color.WHITE);
+		opG.fillRect(0, 0, width + borderW + bWidth *2, height + borderH + bHeight * 2);
 	}
 
 	protected void plotBackgroundHalves() throws IOException {
@@ -242,6 +250,9 @@ public class ScriptPath {
 	}
 
 	private void plotEncryption(int dx1, int dy1) {
+		if (!plotEncryption) {
+			return;
+		}
 		Color eCol = Color.WHITE;
 		int dx = 3;
 		int dy2 = dx * 2;
@@ -1689,7 +1700,9 @@ public class ScriptPath {
 		int y2 = y1 + hImage + (int) hMargin;
 		drawOutline(allG, wAll, hAll);
 		drawMarkers(allG, x1, y1, x2, y2, strLen);
-		RendererUtils.saveJPGFile(all, src + getopName(), dpi, 1);
+		//RendererUtils.saveJPGFile(all, src + getopName(), dpi, 1);
+		File outfile = new File(src + getopName());
+		RendererUtils.savePNGFile(all, outfile, dpi);
 		allG.dispose();
 		opG.dispose();
 		printFileInfo(fFile1);
@@ -1702,7 +1715,7 @@ public class ScriptPath {
 	}
 
 	private String getopName() {
-		String nm = opName.replace(".jpg", "_") + number + "_" + total + ".jpg";
+		String nm = opName.replace(".jpg", "_") + number + "_" + total + ".png";
 		return nm;
 	}
 
